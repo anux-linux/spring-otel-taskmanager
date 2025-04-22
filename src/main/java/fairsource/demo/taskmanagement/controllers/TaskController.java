@@ -2,6 +2,8 @@ package fairsource.demo.taskmanagement.controllers;
 
 import fairsource.demo.taskmanagement.models.Task;
 import fairsource.demo.taskmanagement.services.impl.TaskServiceImpl;
+import io.opentelemetry.instrumentation.annotations.SpanAttribute;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    @WithSpan(value = "all tasks")
     @GetMapping
     public String getAllTasks(Model model) {
         logger.info("Getting all tasks");
@@ -32,6 +35,7 @@ public class TaskController {
         return "list";
     }
 
+    @WithSpan(value = "get task")
     @GetMapping("/{id}")
     public String getTaskById(@PathVariable Long id, Model model) {
         logger.info("Getting task with the ID {}", id);
@@ -40,6 +44,7 @@ public class TaskController {
         return "edit";
     }
 
+    @WithSpan(value = "show task create")
     @GetMapping("/tasks/create")
     public String showCreateForm(Model model) {
         logger.info("Show create form for task");
@@ -47,8 +52,9 @@ public class TaskController {
         return "create";
     }
 
+    @WithSpan(value = "open task")
     @PostMapping("/tasks/markOpen")
-    public String openTask(@RequestParam Long id) {
+    public String openTask(@SpanAttribute("TaskID") @RequestParam Long id) {
         logger.info("Set task status to open");
         Task task = taskService.findTaskById(id);
         task.setDone(false);
@@ -57,8 +63,9 @@ public class TaskController {
 
     }
 
+    @WithSpan(value = "close task")
     @PostMapping("/tasks/markDone")
-    public String closeTask(@RequestParam Long id) {
+    public String closeTask(@SpanAttribute("TaskID") @RequestParam Long id) {
         logger.info("Set task status to done");
         Task task = taskService.findTaskById(id);
         task.setDone(true);
@@ -67,6 +74,7 @@ public class TaskController {
 
     }
 
+    @WithSpan(value = "create task")
     @PostMapping
     public String createTask(@ModelAttribute Task task) {
         logger.info("Creating new task");
@@ -75,6 +83,7 @@ public class TaskController {
     }
 
 
+    @WithSpan(value = "update task")
     @PostMapping("/{id}")
     public String updateTask(@PathVariable Long id, @ModelAttribute("task") Task taskDetails) {
 
@@ -88,7 +97,8 @@ public class TaskController {
         return "redirect:/";
     }
 
-    @DeleteMapping("/{id}")
+    @WithSpan(value = "delete task")
+    @PostMapping("/{id}/delete")
     public String deleteTask(@PathVariable Long id) {
         logger.info("Deleting task with with ID {} ", id);
         taskService.deleteTask(id);
