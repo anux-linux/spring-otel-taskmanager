@@ -1,0 +1,24 @@
+version: '3'
+services:
+  spring-boot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8080"
+    depends_on:
+      - postgresql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/db_task-manager
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres1
+
+  postgresql:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres1
+      POSTGRES_USER: postgres
+      POSTGRES_DB: db_task-manager
+    ports:
+      - "5433:5432"

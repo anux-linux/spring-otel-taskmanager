@@ -16,14 +16,6 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <!-- Move the login button to the navbar -->
-                <li class="nav-item">
-                    <a class="nav-link bg-danger" href="/logout">Logout</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
 
@@ -47,17 +39,17 @@
                      <!-- LOW priority icon -->
                      <i th:case="${T(fairsource.demo.taskmanagement.models.Priority).LOW}"
                         class="bi bi-arrow-down-circle text-info"
-                        title="Low Priority"></i>
+                        title="Low Priority">LOW</i>
 
                      <!-- NORMAL priority icon -->
                      <i th:case="${T(fairsource.demo.taskmanagement.models.Priority).NORMAL}"
                         class="bi bi-dash-circle text-secondary"
-                        title="Normal Priority"></i>
+                        title="Normal Priority">NORMAL</i>
 
                      <!-- URGENT priority icon -->
                      <i th:case="${T(fairsource.demo.taskmanagement.models.Priority).URGENT}"
                         class="bi bi-exclamation-triangle-fill text-danger"
-                        title="Urgent Priority"></i>
+                        title="Urgent Priority">URGENT</i>
                  </span>
             </td>
             <td th:text="${task.name}"></td>
@@ -65,16 +57,16 @@
 
                 <form th:if="${!task.done}" th:action="@{/tasks/markDone}" method="post" style="display: inline;">
                     <input type="hidden" name="id" th:value="${task.id}"/>
+                    <button type="submit" class="btn btn-primary">Open</button>
                     <div class="tooltip">
-                        <button type="submit" class="btn btn-primary">Open</button>
                         <span class="tooltiptext">Click to change state</span>
                     </div>
                 </form>
 
                 <form th:if="${task.done}" th:action="@{/tasks/markOpen}" method="post" style="display: inline;">
                     <input type="hidden" name="id" th:value="${task.id}"/>
+                    <button type="submit" class="btn btn-success" disabled>Done</button>
                     <div class="tooltip">
-                        <button type="submit" class="btn btn-success" disabled>Done</button>
                         <span class="tooltiptext">Click to change state</span>
                     </div>
                 </form>
@@ -82,7 +74,7 @@
             </td>
             <td th:text="${#temporals.format(task.created, 'dd.MM.yyyy HH:mm')}"></td>
             <td>
-                <a class="btn btn-warning btn-sm me-1" th:href="@{/{id}/edit(id=${task.id})}">Edit</a>
+                <a class="btn btn-warning btn-sm me-1" th:href="@{/{id}(id=${task.id})}">Edit</a>
                 <form th:action="@{/{id}/delete(id=${task.id})}" method="post" style="display: inline;">
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
