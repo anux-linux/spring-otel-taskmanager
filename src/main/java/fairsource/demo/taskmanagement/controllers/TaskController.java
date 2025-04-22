@@ -45,7 +45,7 @@ public class TaskController {
     }
 
     @WithSpan(value = "show task create")
-    @GetMapping("/tasks/create")
+    @GetMapping("/tasks/new")
     public String showCreateForm(Model model) {
         logger.info("Show create form for task");
         model.addAttribute("task", new Task());

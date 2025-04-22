@@ -12,6 +12,7 @@ This application allows you to create, edit, and delete tasks.
 
 ## Prerequisites
 
+- Unix / Linux system
 - Java JDK 17
 - Maven 4
 - Docker
@@ -63,3 +64,7 @@ docker compose up --build
   like [Grafana](https://grafana.com/docs/grafana-cloud/send-data/otlp/send-data-otlp/)
   or [Honeycomb](https://docs.honeycomb.io/send-data/opentelemetry/collector/) it is possible to adapt the collector
   config or application settings.
+
+## Unit Tests
+
+To run unit tests run this command ```mvn clean test ```
