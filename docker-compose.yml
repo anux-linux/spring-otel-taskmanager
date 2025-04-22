@@ -22,3 +22,18 @@ services:
       POSTGRES_DB: db_task-manager
     ports:
       - "5433:5432"
+  collector:
+    image: otel/opentelemetry-collector:0.72.0
+    command: [ "--config=/etc/otel-collector-config.yml" ]
+    volumes:
+      - ./otel-config.yaml:/etc/otel-collector-config.yml
+    ports:
+      - "4318:4318"
+    depends_on:
+      - jaeger-service
+
+  jaeger-service:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14250"
