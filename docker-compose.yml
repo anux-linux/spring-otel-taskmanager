@@ -5,9 +5,10 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8088:8080"
+      - "8888:8080"
     depends_on:
       - postgresql
+      - collector
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/db_task-manager
       SPRING_DATASOURCE_USERNAME: postgres
@@ -22,6 +23,7 @@ services:
       POSTGRES_DB: db_task-manager
     ports:
       - "5433:5432"
+
   collector:
     image: otel/opentelemetry-collector:0.72.0
     command: [ "--config=/etc/otel-collector-config.yml" ]
