@@ -1,6 +1,6 @@
 # Task-Management Applikation with Spring Boot
 
-A simple task management web application based on Spring Boot and Thymeleaf.
+A simple task management web application based on Spring Boot and Thymeleaf fully dockerized and monitored with [OpenTelemetry](https://opentelemetry.io/docs/zero-code/java/spring-boot-starter/)
 This application allows you to create, edit, and delete tasks.
 
 ## Features
@@ -27,7 +27,7 @@ This application allows you to create, edit, and delete tasks.
     spring.datasource.password=root
     ```
     - docker-compose.yaml
-    ```bash
+    ```yaml
     [...]
    
     SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/db_task-manager
@@ -56,11 +56,11 @@ mvn clean package
 docker compose up --build
 ```
 
-5. The application is exposed on port 8888.
+5. The application is exposed on port 8888. Tracing logs are written to logging endpoint of the collector container.
 
 ## Available Configurations
 
-- To send the Traces to a monitoring service
+- To send traces to a monitoring service
   like [Grafana](https://grafana.com/docs/grafana-cloud/send-data/otlp/send-data-otlp/)
   or [Honeycomb](https://docs.honeycomb.io/send-data/opentelemetry/collector/) it is possible to adapt the collector
   config or application settings.
