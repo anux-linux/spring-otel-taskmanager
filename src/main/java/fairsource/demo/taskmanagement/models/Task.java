@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+/**
+ * Entity class representing a task.
+ */
 @Entity
 @Getter
 @Setter
@@ -26,6 +29,10 @@ public class Task {
     @Column(nullable = false, updatable = false)
     private Instant created;
 
+    /**
+     * Creation timestamp for the task is automatically set to the current time when
+     * the task is created and stored to the database.
+     */
     @PrePersist
     protected void onCreate() {
         this.created = Instant.now();

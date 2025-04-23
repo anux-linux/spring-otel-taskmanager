@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller class to manage web requests.
+ */
 @Controller
 @RequestMapping("/")
 public class TaskController {
@@ -22,10 +25,20 @@ public class TaskController {
     @Autowired
     private final TaskServiceImpl taskService;
 
+    /**
+     * Instantiates TaskController instances.
+     *
+     * @param taskService task service to manage tasks.
+     */
     public TaskController(TaskServiceImpl taskService) {
         this.taskService = taskService;
     }
 
+    /**
+     * Handles the root URL and redirects to the list of tasks.
+     *
+     * @return redirect to the list of tasks.
+     */
     @WithSpan(value = "all tasks")
     @GetMapping
     public String getAllTasks(Model model) {
@@ -35,6 +48,13 @@ public class TaskController {
         return "list";
     }
 
+    /**
+     * Handles the request to get a task by its ID.
+     *
+     * @param id    the ID of the task to retrieve.
+     * @param model the model to add attributes to.
+     * @return the view name for editing a task.
+     */
     @WithSpan(value = "get task")
     @GetMapping("/{id}")
     public String getTaskById(@PathVariable Long id, Model model) {
@@ -44,6 +64,12 @@ public class TaskController {
         return "edit";
     }
 
+    /**
+     * Handles the request to show the form for creating a new task.
+     *
+     * @param model the model to add attributes to.
+     * @return the view name for creating a task.
+     */
     @WithSpan(value = "show task create")
     @GetMapping("/tasks/new")
     public String showCreateForm(Model model) {
@@ -52,6 +78,12 @@ public class TaskController {
         return "create";
     }
 
+    /**
+     * Handles the request to mark a task as open.
+     *
+     * @param id the ID of the task to mark as open.
+     * @return redirect to the list of tasks.
+     */
     @WithSpan(value = "open task")
     @PostMapping("/tasks/markOpen")
     public String openTask(@SpanAttribute("TaskID") @RequestParam Long id) {
@@ -63,6 +95,12 @@ public class TaskController {
 
     }
 
+    /**
+     * Handles the request to mark a task as done.
+     *
+     * @param id the ID of the task to mark as done.
+     * @return redirect to the list of tasks.
+     */
     @WithSpan(value = "close task")
     @PostMapping("/tasks/markDone")
     public String closeTask(@SpanAttribute("TaskID") @RequestParam Long id) {
@@ -74,6 +112,12 @@ public class TaskController {
 
     }
 
+    /**
+     * Handles the request to create a new task.
+     *
+     * @param task the task to create.
+     * @return redirect to the list of tasks.
+     */
     @WithSpan(value = "create task")
     @PostMapping
     public String createTask(@ModelAttribute Task task) {
@@ -82,7 +126,13 @@ public class TaskController {
         return "redirect:/";
     }
 
-
+    /**
+     * Handles the request to update an existing task.
+     *
+     * @param id          the ID of the task to update.
+     * @param taskDetails the updated task details.
+     * @return redirect to the list of tasks.
+     */
     @WithSpan(value = "update task")
     @PostMapping("/{id}")
     public String updateTask(@PathVariable Long id, @ModelAttribute("task") Task taskDetails) {
@@ -97,6 +147,12 @@ public class TaskController {
         return "redirect:/";
     }
 
+    /**
+     * Handles the request to delete a task.
+     *
+     * @param id the ID of the task to delete.
+     * @return redirect to the list of tasks.
+     */
     @WithSpan(value = "delete task")
     @PostMapping("/{id}/delete")
     public String deleteTask(@PathVariable Long id) {
