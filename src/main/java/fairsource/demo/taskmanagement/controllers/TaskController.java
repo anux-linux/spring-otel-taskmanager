@@ -59,7 +59,7 @@ public class TaskController {
     @GetMapping("/{id}")
     public String getTaskById(@PathVariable Long id, Model model) {
         logger.info("Getting task with the ID {}", id);
-        Task task = (Task) taskService.findTaskById(id);
+        Task task = taskService.findTaskById(id);
         model.addAttribute("task", task);
         return "edit";
     }
